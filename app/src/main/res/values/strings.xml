@@ -2,4 +2,9 @@
 	<string name="app_name">ChatApp</string>
 	<string name="hello_world">Hello world!</string>
 	<string name="first">This is the first text view.</string>
+	<string name="next">NEXT</string>
+	<string name="tab">TAB</string>
+	<string name="chat">CHAT</string>
+	<string name="help">HELP</string>
+	<string name="me">ME</string>
 </resources>
