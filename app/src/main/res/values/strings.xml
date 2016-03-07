@@ -2,9 +2,12 @@
 	<string name="app_name">ChatApp</string>
 	<string name="hello_world">Hello world!</string>
 	<string name="first">This is the first text view.</string>
-	<string name="next">NEXT</string>
+	<string name="next">登录</string>
 	<string name="tab">TAB</string>
-	<string name="chat">CHAT</string>
-	<string name="help">HELP</string>
-	<string name="me">ME</string>
+	<string name="news">信息</string>
+	<string name="chat">聊天</string>
+	<string name="help">邻里中心</string>
+	<string name="me">我</string>
+	<string name="username">15162330809</string>
+	<string name="password">123456</string>
 </resources>
