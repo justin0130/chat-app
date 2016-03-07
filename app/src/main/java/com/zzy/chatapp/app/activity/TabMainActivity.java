@@ -20,8 +20,6 @@ public class TabMainActivity extends FragmentActivity {
 	private RadioGroup rgs;
 	public List<Fragment> fragments = new ArrayList<Fragment>();
 
-	public String hello = "hello ";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,12 +32,6 @@ public class TabMainActivity extends FragmentActivity {
 		rgs = (RadioGroup) findViewById(R.id.tabs_rg);
 
 		FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragments, R.id.tab_content, rgs);
-//		tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener(){
-//			@Override
-//			public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {
-//				System.out.println("Extra---- " + index + " checked!!! ");
-//			}
-//		});
 
 	}
 }

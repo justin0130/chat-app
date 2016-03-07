@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import com.zzy.chatapp.app.R;
 
 /**
@@ -14,22 +15,20 @@ import com.zzy.chatapp.app.R;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MeFragment extends Fragment {
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-	}
+	TextView tvTitleName;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.activity_me, null);
+		View view = inflater.inflate(R.layout.fragment_me, null);
+
+		initView(view);
+		tvTitleName.setText(R.string.me);
+
 		return view;
 	}
 
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
+	void initView(View view) {
+		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
 	}
 }

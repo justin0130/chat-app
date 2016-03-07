@@ -28,7 +28,7 @@
 				android:id="@+id/tab_rb_chat"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:text="@string/chat"
+				android:text="@string/news"
 				android:textSize="13sp"
 				android:layout_weight="1.0"
 				android:gravity="center"

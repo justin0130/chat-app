@@ -24,6 +24,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 			case R.id.jumpToNextActivity:
 				Intent intent = new Intent(MainActivity.this, TabMainActivity.class);
 				startActivity(intent);
+				finish();
 				break;
 			default:
 				break;
