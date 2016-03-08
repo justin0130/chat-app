@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:background="@color/blue"
 	android:layout_height="46dp"
@@ -5,10 +6,11 @@
 	>
 	<ImageView
 		android:id="@+id/iv_title_back"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
+		android:layout_height="35dp"
+		android:layout_width="35dp"
 		android:layout_alignParentLeft="true"
-		android:padding="5dp"
+		android:layout_centerVertical="true"
+		android:paddingLeft="5dp"
 		android:src="@mipmap/back"
 		android:visibility="gone"
 		/>
@@ -20,5 +22,15 @@
 		android:text=""
 		android:textSize="26sp"
 		android:layout_width="wrap_content"
+		/>
+	<ImageView
+		android:id="@+id/iv_title_add"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:layout_width="35dp"
+		android:layout_height="35dp"
+		android:paddingRight="10dp"
+		android:src="@mipmap/add"
+		android:visibility="gone"
 		/>
 </RelativeLayout>

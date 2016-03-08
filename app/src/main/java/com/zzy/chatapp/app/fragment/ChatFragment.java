@@ -9,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.activity.ChatActivity;
 import com.zzy.chatapp.app.activity.NewsActivity;
-import com.zzy.chatapp.app.adapter.NewsListViewAdapter;
+import com.zzy.chatapp.app.adapter.ChatListViewAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +26,7 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ChatFragment extends Fragment {
 	ListView lvChat;
+	TextView tvNews;
 	TextView tvTitleName;
 
 	@Override
@@ -33,22 +34,29 @@ public class ChatFragment extends Fragment {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_chat, null);
 
-		initView(view);
+		initViews(view);
 
 		List<HashMap<String, Object>> list = testData();
-		lvChat.setAdapter(new NewsListViewAdapter(getActivity(), list));
+		lvChat.setAdapter(new ChatListViewAdapter(getActivity(), list));
 		lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				Intent intent;
 				Bundle bundle;
 
-				intent = new Intent(getActivity(), NewsActivity.class);
+				intent = new Intent(getActivity(), ChatActivity.class);
 				bundle = new Bundle();
-				bundle.putString("name", ((TextView)view.findViewById(R.id.tv_newslist_name)).getText().toString());
+				bundle.putString("name", ((TextView) view.findViewById(R.id.tv_chatlist_name)).getText().toString());
 				intent.putExtras(bundle);
 
 				startActivity(intent);
+			}
+		});
+
+		tvNews.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				startActivity(new Intent(getActivity(), NewsActivity.class));
 			}
 		});
 
@@ -57,8 +65,9 @@ public class ChatFragment extends Fragment {
 		return view;
 	}
 
-	void initView(View view) {
+	void initViews(View view) {
 		lvChat = (ListView) view.findViewById(R.id.lv_chat);
+		tvNews = (TextView) view.findViewById(R.id.tv_news);
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
 	}
 

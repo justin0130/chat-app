@@ -5,6 +5,21 @@
 	android:orientation="vertical"
 	>
 	<include layout="@layout/item_title" />
+	<TextView
+		android:drawableRight="@mipmap/next"
+		android:id="@+id/tv_news"
+		android:gravity="center_vertical"
+		android:layout_height="50dp"
+		android:layout_width="match_parent"
+		android:paddingLeft="20dp"
+		android:text="@string/hasnews"
+		android:textSize="22dp"
+		/>
+	<TextView
+		android:background="@color/black"
+		android:layout_height="0.5dp"
+		android:layout_width="match_parent"
+		/>
 	<ListView
 		android:id="@+id/lv_chat"
 		android:layout_width="match_parent"

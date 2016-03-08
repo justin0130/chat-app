@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.TabMainActivity"/>
+        <activity android:name=".activity.ChatActivity"/>
+        <activity android:name=".activity.HelpEditActivity"/>
+        <activity android:name=".activity.HelpDetailsActivity"/>
         <activity android:name=".activity.NewsActivity"/>
     </application>
 
