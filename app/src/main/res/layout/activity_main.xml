@@ -15,6 +15,7 @@
 		/>
 	<EditText
 		android:background="@color/white"
+		android:id="@+id/et_login_name"
 		android:layout_height="40dp"
 		android:layout_width="match_parent"
 		android:layout_marginLeft="50dp"
@@ -26,6 +27,7 @@
 		/>
 	<EditText
 		android:background="@color/white"
+		android:id="@+id/et_login_password"
 		android:inputType="textPassword"
 		android:layout_height="40dp"
 		android:layout_width="match_parent"
@@ -37,7 +39,7 @@
 		android:text="@string/password"
 		/>
 	<Button
-		android:id="@+id/jumpToNextActivity"
+		android:id="@+id/btn_login"
 		android:layout_gravity="center_horizontal"
 		android:layout_width="150dp"
 		android:layout_height="wrap_content"

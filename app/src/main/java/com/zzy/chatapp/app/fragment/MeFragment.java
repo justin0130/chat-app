@@ -22,13 +22,13 @@ public class MeFragment extends Fragment {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_me, null);
 
-		initView(view);
+		initViews(view);
 		tvTitleName.setText(R.string.me);
 
 		return view;
 	}
 
-	void initView(View view) {
+	void initViews(View view) {
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
 	}
 }
