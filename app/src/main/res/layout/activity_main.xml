@@ -46,4 +46,14 @@
 		android:layout_marginTop="30dp"
 	    android:text="@string/next"
 		/>
+	<TextView
+		android:id="@+id/tv_register"
+		android:layout_gravity="right"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="20dp"
+		android:layout_marginTop="20dp"
+		android:layout_width="wrap_content"
+		android:text="@string/register"
+		android:textSize="18sp"
+		/>
 </LinearLayout>

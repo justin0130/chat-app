@@ -24,4 +24,6 @@
 	<string name="please_input_name">请输入姓名</string>
 	<string name="please_input_phone">请输入电话</string>
 	<string name="accept">接下了</string>
+	<string name="test">测试</string>
+	<string name="register">注册</string>
 </resources>
