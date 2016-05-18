@@ -113,6 +113,30 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 		return view;
 	}
 
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.iv_title_add:
+				setViewEnable(true);
+				btnMeFinish.setVisibility(View.VISIBLE);
+				break;
+			case R.id.btn_me_finish:
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("nickName", etMeName.getText().toString());
+				map.put("age", etMeAge.getText().toString());
+				map.put("sign", etMeSign.getText().toString());
+				map.put("count", etMeHelpcount.getText().toString());
+				map.put("address", etMeAddress.getText().toString());
+				map.put("phone", etMePhone.getText().toString());
+
+				onLoadDialog.show();
+				RequestServerUtils.updateUserMess(updateUserDetails, map);
+				break;
+			default:
+				break;
+		}
+	}
+
 	void initViews(View view) {
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
 		etMeName = (EditText) view.findViewById(R.id.et_me_name);
@@ -150,29 +174,5 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 		etMeHelpcount.setEnabled(isEnable);
 		etMeAddress.setEnabled(isEnable);
 		etMePhone.setEnabled(isEnable);
-	}
-
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.iv_title_add:
-				setViewEnable(true);
-				btnMeFinish.setVisibility(View.VISIBLE);
-				break;
-			case R.id.btn_me_finish:
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("nickName", etMeName.getText().toString());
-				map.put("age", etMeAge.getText().toString());
-				map.put("sign", etMeSign.getText().toString());
-				map.put("count", etMeHelpcount.getText().toString());
-				map.put("address", etMeAddress.getText().toString());
-				map.put("phone", etMePhone.getText().toString());
-
-				onLoadDialog.show();
-				RequestServerUtils.updateUserMess(updateUserDetails, map);
-				break;
-			default:
-				break;
-		}
 	}
 }
