@@ -2,7 +2,6 @@ package com.zzy.chatapp.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.tools.HttpUtils;
+import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,8 +27,42 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 	TextView tvRegister;
 	TextView tvSetIpAndPort;
 
-	Handler handler;
-	ProgressDialog pDialog;
+	OnLoadDialog onLoadDialog;
+	Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if(msg.obj == null) {
+				onLoadDialog.cancel();
+				Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			String json = msg.obj.toString();
+			if(HttpUtils.TIME_OUT.equals(json)) {
+				onLoadDialog.cancel();
+				Toast.makeText(LoginActivity.this, R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			try {
+				JSONObject object = new JSONObject(json);
+				String status = object.getString("status");
+				if("0".equals(status)) {
+					onLoadDialog.cancel();
+					Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
+					return;
+				}
+				//set user id
+				String userId = object.getString("userId");
+				RequestServerUtils.setUserId(userId);
+
+				onLoadDialog.cancel();
+				Toast.makeText(LoginActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(LoginActivity.this, TabMainActivity.class));
+				finish();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,39 +70,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		setContentView(R.layout.activity_login);
 
 		initViews();
-
 		btnLogin.setOnClickListener(this);
 		tvRegister.setOnClickListener(this);
 		tvSetIpAndPort.setOnClickListener(this);
-
-		handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				if(msg.obj == null) {
-					pDialog.cancel();
-					Toast.makeText(LoginActivity.this, "msg.obj is null", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				String json = msg.obj.toString();
-				try {
-					JSONObject object = new JSONObject(json);
-					String status = object.getString("status");
-					if("0".equals(status)) {
-						pDialog.cancel();
-						Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
-						return;
-					}
-					String userId = object.getString("userId");
-					RequestServerUtils.setUserId(userId);
-					pDialog.cancel();
-					Toast.makeText(LoginActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
-					startActivity(new Intent(LoginActivity.this, TabMainActivity.class));
-					finish();
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		};
 	}
 
 	private void initViews() {
@@ -79,38 +83,26 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		tvSetIpAndPort = (TextView) findViewById(R.id.tv_set_ip_and_port);
 	}
 
-	private void setIpAndPort() {
-		final View view = LayoutInflater.from(this).inflate(R.layout.item_set_ip_and_port, null);
-		new AlertDialog.Builder(LoginActivity.this)
-			.setTitle(R.string.please_input_ip_and_port)
-			.setView(view)
-			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
-					EditText etIp = (EditText) view.findViewById(R.id.et_set_ip);
-					EditText etPort = (EditText) view.findViewById(R.id.et_set_port);
-					RequestServerUtils.setBaseUrl(
-							etIp.getText().toString(), etPort.getText().toString());
-				}
-			})
-			.setNegativeButton(R.string.cancel, null)
-			.create()
-			.show();
-	}
-
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.btn_login:
-				if(RequestServerUtils.IP.equals("") || RequestServerUtils.PORT.equals("")) {
-					Toast.makeText(LoginActivity.this, R.string.please_input_ip_and_port, Toast.LENGTH_SHORT).show();
+				if("".equals(RequestServerUtils.IP) || "".equals(RequestServerUtils.PORT)) {
+					Toast.makeText(LoginActivity.this,
+							R.string.please_input_ip_and_port, Toast.LENGTH_SHORT).show();
 					return;
 				}
-				pDialog = new ProgressDialog(LoginActivity.this);
-				pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				pDialog.setMessage("正在加载中...");
-				pDialog.show();
-				RequestServerUtils.checkLogin(handler, etLoginName.getText().toString(), etLoginPassword.getText().toString());
+				if("".equals(etLoginName.getText().toString()) ||
+						"".equals(etLoginPassword.getText().toString())) {
+					Toast.makeText(LoginActivity.this,
+							R.string.please_input_login, Toast.LENGTH_SHORT).show();
+					return;
+				}
+				onLoadDialog = new OnLoadDialog(LoginActivity.this);
+				onLoadDialog.show();
+				RequestServerUtils.login(handler,
+						etLoginName.getText().toString(),
+						etLoginPassword.getText().toString());
 				break;
 			case R.id.tv_register:
 				startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
@@ -121,5 +113,24 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 			default:
 				break;
 		}
+	}
+
+	private void setIpAndPort() {
+		final View view = LayoutInflater.from(this).inflate(R.layout.item_set_ip_and_port, null);
+		new AlertDialog.Builder(LoginActivity.this)
+				.setTitle(R.string.please_input_ip_and_port)
+				.setView(view)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						EditText etIp = (EditText) view.findViewById(R.id.et_set_ip);
+						EditText etPort = (EditText) view.findViewById(R.id.et_set_port);
+						RequestServerUtils.setBaseUrl(
+								etIp.getText().toString(), etPort.getText().toString());
+					}
+				})
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 }
