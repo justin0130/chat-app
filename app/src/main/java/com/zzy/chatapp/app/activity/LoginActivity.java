@@ -75,34 +75,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		tvSetIpAndPort.setOnClickListener(this);
 	}
 
-	private void initViews() {
-		btnLogin = (Button) findViewById(R.id.btn_login);
-		etLoginName = (EditText) findViewById(R.id.et_login_name);
-		etLoginPassword = (EditText) findViewById(R.id.et_login_password);
-		tvRegister = (TextView) findViewById(R.id.tv_register);
-		tvSetIpAndPort = (TextView) findViewById(R.id.tv_set_ip_and_port);
-	}
-
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.btn_login:
-				if("".equals(RequestServerUtils.IP) || "".equals(RequestServerUtils.PORT)) {
-					Toast.makeText(LoginActivity.this,
-							R.string.please_input_ip_and_port, Toast.LENGTH_SHORT).show();
-					return;
-				}
-				if("".equals(etLoginName.getText().toString()) ||
-						"".equals(etLoginPassword.getText().toString())) {
-					Toast.makeText(LoginActivity.this,
-							R.string.please_input_login, Toast.LENGTH_SHORT).show();
-					return;
-				}
-				onLoadDialog = new OnLoadDialog(LoginActivity.this);
-				onLoadDialog.show();
-				RequestServerUtils.login(handler,
-						etLoginName.getText().toString(),
-						etLoginPassword.getText().toString());
+				login();
 				break;
 			case R.id.tv_register:
 				startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
@@ -113,6 +90,33 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 			default:
 				break;
 		}
+	}
+
+	private void initViews() {
+		btnLogin = (Button) findViewById(R.id.btn_login);
+		etLoginName = (EditText) findViewById(R.id.et_login_name);
+		etLoginPassword = (EditText) findViewById(R.id.et_login_password);
+		tvRegister = (TextView) findViewById(R.id.tv_register);
+		tvSetIpAndPort = (TextView) findViewById(R.id.tv_set_ip_and_port);
+	}
+
+	private void login() {
+		if("".equals(RequestServerUtils.IP) || "".equals(RequestServerUtils.PORT)) {
+			Toast.makeText(LoginActivity.this,
+					R.string.please_input_ip_and_port, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		if("".equals(etLoginName.getText().toString()) ||
+				"".equals(etLoginPassword.getText().toString())) {
+			Toast.makeText(LoginActivity.this,
+					R.string.please_input_login, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		onLoadDialog = new OnLoadDialog(LoginActivity.this);
+		onLoadDialog.show();
+		RequestServerUtils.login(handler,
+				etLoginName.getText().toString(),
+				etLoginPassword.getText().toString());
 	}
 
 	private void setIpAndPort() {
