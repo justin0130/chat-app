@@ -20,8 +20,6 @@ public class ChatActivity extends Activity implements View.OnClickListener {
 	private TextView tvTest;
 	private TextView tvTitleName;
 
-	private Handler handler;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,16 +34,6 @@ public class ChatActivity extends Activity implements View.OnClickListener {
 
 		btnTest.setOnClickListener(this);
 		tvTitleName.setText(bundle.getString("name"));
-
-		handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				if(msg.obj == null) {
-					return;
-				}
-				tvTest.setText(msg.obj.toString());
-			}
-		};
 	}
 
 	private void initViews() {
@@ -62,7 +50,6 @@ public class ChatActivity extends Activity implements View.OnClickListener {
 				finish();
 				break;
 			case R.id.btn_test:
-				RequestServerUtils.getServerData(handler);
 				break;
 			default:
 				break;
