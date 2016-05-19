@@ -34,7 +34,6 @@ public class HelpListViewAdapter extends BaseAdapter {
 		int count = 0;
 
 		if (null != mList) {
-			//  所有分类中item的总和是ListVIew  Item的总个数
 			for (List list : mList) {
 				count += list.size();
 			}
