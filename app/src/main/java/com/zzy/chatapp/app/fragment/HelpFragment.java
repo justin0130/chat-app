@@ -34,7 +34,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 	ImageView ivTitleAdd;
 	TextView tvTitleName;
 	List<List> data = null;
-	List<HashMap<String, Object>> requestList;
+	List<HashMap<String, Object>> postList;
 	List<HashMap<String, Object>> helpList;
 
 	OnLoadDialog onLoadDialog;
@@ -55,30 +55,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 					Toast.makeText(getActivity(), R.string.no_help_list, Toast.LENGTH_SHORT).show();
 					return;
 				}
-				JSONArray arrayPost = json.getJSONArray("myPost");
-				JSONArray arrayHelp = json.getJSONArray("myHelp");
-				if(data == null) {
-					data = new ArrayList<List>();
-				}
-				requestList = new ArrayList<HashMap<String, Object>>();
-				helpList = new ArrayList<HashMap<String, Object>>();
-				for(int i=0; i<arrayPost.length(); i++) {
-					JSONObject object  = arrayPost.getJSONObject(i);
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("nickName", object.getString("nickName"));
-					map.put("content", object.getString("content"));
-					requestList.add(map);
-				}
-				for(int i=0; i<arrayHelp.length(); i++) {
-					JSONObject object  = arrayHelp.getJSONObject(i);
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("nickName", object.getString("nickName"));
-					map.put("content", object.getString("content"));
-					helpList.add(map);
-				}
-				data.add(requestList);
-				data.add(helpList);
-				lvHelp.setAdapter(new HelpListViewAdapter(getActivity(), data));
+				setMyPostAndHelpList(json);
 				onLoadDialog.cancel();
 			} catch (JSONException e) {
 				onLoadDialog.cancel();
@@ -104,22 +81,54 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				Intent intent;
 				Bundle bundle;
+				String postId = "";
 
+				int categroyFirstIndex = 0;
+				for(List list : data) {
+					int size = list.size();
+					int categoryIndex = i - categroyFirstIndex;
+					if(categoryIndex == 0) {
+						return;
+					}
+					if(categoryIndex < size) {
+						postId = ((HashMap)list.get(categoryIndex)).get("postId").toString();
+						break;
+					}
+					categroyFirstIndex = categroyFirstIndex + size;
+				}
 				intent = new Intent(getActivity(), HelpDetailsActivity.class);
 				bundle = new Bundle();
 				try {
-					bundle.putString("details", ((TextView) view.findViewById(R.id.tv_helplist_title)).getText().toString());
+					bundle.putString("postId", postId);
 					bundle.putString("flag", "details");
 					intent.putExtras(bundle);
 
 					startActivity(intent);
 				} catch (Exception e) {
-					return;
+					e.printStackTrace();
 				}
 			}
 		});
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		System.out.println("````````````````` on resume `````````````````");
+//		getHelpList();
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.iv_title_add:
+				startActivity(new Intent(getActivity(), HelpEditActivity.class));
+				break;
+			default:
+				break;
+		}
 	}
 
 	void initViews(View view) {
@@ -134,15 +143,42 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 		RequestServerUtils.getHelpList(helpHandler);
 	}
 
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.iv_title_add:
-				startActivity(new Intent(getActivity(), HelpEditActivity.class));
-				break;
-			default:
-				break;
+	private void setMyPostAndHelpList(JSONObject json) throws JSONException {
+		JSONArray arrayPost = json.getJSONArray("myPost");
+		JSONArray arrayHelp = json.getJSONArray("myHelp");
+		data = new ArrayList<List>();
+		postList = new ArrayList<HashMap<String, Object>>();
+		helpList = new ArrayList<HashMap<String, Object>>();
+
+		//add post list title
+		HashMap<String, Object> mapPostTitle = new HashMap<String, Object>();
+		mapPostTitle.put("title", getResources().getString(R.string.my_post));
+		postList.add(mapPostTitle);
+		//add post list content
+		for(int i=0; i<arrayPost.length(); i++) {
+			JSONObject object  = arrayPost.getJSONObject(i);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("postId", object.getString("postId"));
+			map.put("nickName", object.getString("nickName"));
+			map.put("content", object.getString("content"));
+			postList.add(map);
 		}
+		//add help list title
+		HashMap<String, Object> mapHelpTitle = new HashMap<String, Object>();
+		mapHelpTitle.put("title", getResources().getString(R.string.my_help));
+		helpList.add(mapHelpTitle);
+		//add help list content
+		for(int i=0; i<arrayHelp.length(); i++) {
+			JSONObject object  = arrayHelp.getJSONObject(i);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("postId", object.getString("postId"));
+			map.put("nickName", object.getString("nickName"));
+			map.put("content", object.getString("content"));
+			helpList.add(map);
+		}
+		data.add(postList);
+		data.add(helpList);
+		lvHelp.setAdapter(new HelpListViewAdapter(getActivity(), data));
 	}
 
 	List<List> testData() {

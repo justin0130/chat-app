@@ -51,6 +51,7 @@ public class HelpEditActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(HelpEditActivity.this, R.string.submit_success, Toast.LENGTH_SHORT).show();
 				finish();
 			} catch (JSONException e) {
+				onLoadDialog.cancel();
 				e.printStackTrace();
 			}
 		}
@@ -68,16 +69,6 @@ public class HelpEditActivity extends Activity implements View.OnClickListener {
 		tvTitleName.setText(R.string.edit);
 	}
 
-	void initViews() {
-		btnSubmit = (Button) findViewById(R.id.btn_help_submit);
-		tvTitleName = (TextView) findViewById(R.id.tv_title_name);
-		etHelpDetails = (EditText) findViewById(R.id.et_help_details);
-		etelpMoney = (EditText) findViewById(R.id.et_help_money);
-		etHelpAddress = (EditText) findViewById(R.id.et_help_address);
-		etHelpName = (EditText) findViewById(R.id.et_help_name);
-		etHelpPhone = (EditText) findViewById(R.id.et_help_phone);
-	}
-
 	@Override
 	public void onClick(View view) {
 		switch(view.getId()) {
@@ -89,6 +80,16 @@ public class HelpEditActivity extends Activity implements View.OnClickListener {
 			default:
 				break;
 		}
+	}
+
+	void initViews() {
+		btnSubmit = (Button) findViewById(R.id.btn_help_submit);
+		tvTitleName = (TextView) findViewById(R.id.tv_title_name);
+		etHelpDetails = (EditText) findViewById(R.id.et_help_details);
+		etelpMoney = (EditText) findViewById(R.id.et_help_money);
+		etHelpAddress = (EditText) findViewById(R.id.et_help_address);
+		etHelpName = (EditText) findViewById(R.id.et_help_name);
+		etHelpPhone = (EditText) findViewById(R.id.et_help_phone);
 	}
 
 	private void submitRequestHelp() {

@@ -43,7 +43,7 @@
 	<string name="chang_user_details_failure">修改信息失败</string>
 	<string name="connect_time_out">连接超时</string>
 	<string name="no_request_list">没有求助列表</string>
-	<string name="no_help_list">没有帮助列表</string>
+	<string name="no_help_list">没有数据</string>
 	<string name="submit_failure">提交失败</string>
 	<string name="submit_success">提交成功</string>
 	<string name="finish">完成</string>
@@ -52,4 +52,8 @@
 	<string name="me_count">助人次数：</string>
 	<string name="me_address">地址：</string>
 	<string name="me_phone">电话：</string>
+	<string name="my_post">我的求助</string>
+	<string name="my_help">我的帮助</string>
+	<string name="get_post_details_success">获取信息成功</string>
+	<string name="get_post_details_failure">我的信息失败</string>
 </resources>
