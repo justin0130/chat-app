@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
 import org.json.JSONException;
@@ -18,7 +19,7 @@ import org.json.JSONObject;
 /**
  * Created by justin on 3/8/16.
  */
-public class HelpDetailsActivity extends Activity {
+public class HelpDetailsActivity extends Activity implements View.OnClickListener {
 	Button btnHelpSubmit;
 	EditText etHelpDetails;
 	EditText etHelpMoney;
@@ -26,6 +27,8 @@ public class HelpDetailsActivity extends Activity {
 	EditText etHelpName;
 	EditText etHelpPhone;
 	TextView tvTitltName;
+
+	private String postId;
 
 	OnLoadDialog onLoadDialog;
 	Handler contentHandler = new Handler() {
@@ -37,6 +40,11 @@ public class HelpDetailsActivity extends Activity {
 				return;
 			}
 			String obj = msg.obj.toString();
+			if(HttpUtils.TIME_OUT.equals(obj)) {
+				onLoadDialog.cancel();
+				Toast.makeText(HelpDetailsActivity.this, R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				return;
+			}
 			try {
 				JSONObject json = new JSONObject(obj);
 				String status = json.getString("status");
@@ -55,16 +63,65 @@ public class HelpDetailsActivity extends Activity {
 		}
 	};
 
+	Handler tookPostHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if(msg == null) {
+				onLoadDialog.cancel();
+				Toast.makeText(HelpDetailsActivity.this, R.string.took_post_failure, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			String obj = msg.obj.toString();
+			if(HttpUtils.TIME_OUT.equals(obj)) {
+				onLoadDialog.cancel();
+				Toast.makeText(HelpDetailsActivity.this, R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			try {
+				JSONObject json = new JSONObject(obj);
+				String status = json.getString("status");
+				if("0".equals(status)) {
+					onLoadDialog.cancel();
+					Toast.makeText(HelpDetailsActivity.this, R.string.took_post_failure, Toast.LENGTH_SHORT).show();
+					return;
+				}
+				onLoadDialog.cancel();
+				Toast.makeText(HelpDetailsActivity.this, R.string.took_post_success, Toast.LENGTH_SHORT).show();
+				finish();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help_edit);
 
 		Bundle bundle = getIntent().getExtras();
+		postId = bundle.getString("postId");
 
 		initViews();
-		setViews(bundle);
-		getContent(bundle);
+		setViews();
+		getContent();
+
+		if("news".equals(bundle.getString("flag"))) {
+			btnHelpSubmit.setVisibility(View.VISIBLE);
+			btnHelpSubmit.setText(R.string.accept);
+			btnHelpSubmit.setOnClickListener(this);
+		}
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.btn_help_submit:
+				tookPost();
+				break;
+			default:
+				break;
+		}
 	}
 
 	void initViews() {
@@ -77,7 +134,7 @@ public class HelpDetailsActivity extends Activity {
 		tvTitltName = (TextView) findViewById(R.id.tv_title_name);
 	}
 
-	void setViews(Bundle bundle) {
+	void setViews() {
 		etHelpDetails.setText("");
 		etHelpDetails.setFocusable(false);
 		etHelpDetails.setFocusableInTouchMode(false);
@@ -99,23 +156,12 @@ public class HelpDetailsActivity extends Activity {
 		etHelpPhone.setFocusableInTouchMode(false);
 
 		tvTitltName.setText(R.string.details);
-
-		if("news".equals(bundle.getString("flag"))) {
-			btnHelpSubmit.setVisibility(View.VISIBLE);
-			btnHelpSubmit.setText(R.string.accept);
-			btnHelpSubmit.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					Toast.makeText(HelpDetailsActivity.this, "暂时不提供接帖", Toast.LENGTH_LONG).show();
-				}
-			});
-		}
 	}
 
-	private void getContent(Bundle bundle) {
+	private void getContent() {
 		onLoadDialog = new OnLoadDialog(HelpDetailsActivity.this);
 		onLoadDialog.show();
-		RequestServerUtils.getPostDetails(contentHandler, bundle.getString("postId"));
+		RequestServerUtils.getPostDetails(contentHandler, postId);
 	}
 
 	private void setPostDetails(JSONObject content) throws JSONException {
@@ -124,5 +170,11 @@ public class HelpDetailsActivity extends Activity {
 		etHelpAddress.setText(content.getString("address"));
 		etHelpName.setText(content.getString("nickName"));
 		etHelpPhone.setText(content.getString("phone"));
+	}
+
+	private void tookPost() {
+		onLoadDialog = new OnLoadDialog(HelpDetailsActivity.this);
+		onLoadDialog.show();
+		RequestServerUtils.tookPost(tookPostHandler, postId);
 	}
 }

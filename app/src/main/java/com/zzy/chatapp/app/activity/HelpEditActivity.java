@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
 import org.json.JSONException;
@@ -39,6 +40,11 @@ public class HelpEditActivity extends Activity implements View.OnClickListener {
 				return;
 			}
 			String obj = msg.obj.toString();
+			if(HttpUtils.TIME_OUT.equals(obj)) {
+				onLoadDialog.cancel();
+				Toast.makeText(HelpEditActivity.this, R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				return;
+			}
 			try {
 				JSONObject json = new JSONObject(obj);
 				String status = json.getString("status");

@@ -56,4 +56,6 @@
 	<string name="my_help">我的帮助</string>
 	<string name="get_post_details_success">获取信息成功</string>
 	<string name="get_post_details_failure">我的信息失败</string>
+	<string name="took_post_success">接帖成功</string>
+	<string name="took_post_failure">接帖失败</string>
 </resources>

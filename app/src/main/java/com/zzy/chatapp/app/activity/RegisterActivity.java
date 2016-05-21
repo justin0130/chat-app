@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.*;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
 import org.json.JSONException;
@@ -34,6 +35,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 				return;
 			}
 			String json = msg.obj.toString();
+			if(HttpUtils.TIME_OUT.equals(json)) {
+				onLoadDialog.cancel();
+				Toast.makeText(RegisterActivity.this, R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				return;
+			}
 			try {
 				JSONObject object = new JSONObject(json);
 				String status = object.getString("status");
