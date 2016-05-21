@@ -15,6 +15,7 @@ import com.zzy.chatapp.app.R;
 import com.zzy.chatapp.app.activity.HelpDetailsActivity;
 import com.zzy.chatapp.app.activity.HelpEditActivity;
 import com.zzy.chatapp.app.adapter.HelpListViewAdapter;
+import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
 import org.json.JSONArray;
@@ -47,6 +48,11 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 				return;
 			}
 			String obj = msg.obj.toString();
+			if(HttpUtils.TIME_OUT.equals(obj)) {
+				onLoadDialog.cancel();
+				Toast.makeText(getActivity(), R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				return;
+			}
 			try {
 				JSONObject json = new JSONObject(obj);
 				String status = json.getString("status");
@@ -99,8 +105,8 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 				intent = new Intent(getActivity(), HelpDetailsActivity.class);
 				bundle = new Bundle();
 				try {
-					bundle.putString("postId", postId);
 					bundle.putString("flag", "details");
+					bundle.putString("postId", postId);
 					intent.putExtras(bundle);
 
 					startActivity(intent);

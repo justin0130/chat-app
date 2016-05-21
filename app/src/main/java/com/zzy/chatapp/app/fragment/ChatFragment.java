@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.zzy.chatapp.app.R;
 import com.zzy.chatapp.app.activity.ChatActivity;
+import com.zzy.chatapp.app.activity.HelpDetailsActivity;
 import com.zzy.chatapp.app.activity.NewsActivity;
 import com.zzy.chatapp.app.adapter.ChatListViewAdapter;
 
@@ -29,38 +30,34 @@ public class ChatFragment extends Fragment {
 	TextView tvNews;
 	TextView tvTitleName;
 
+	List<HashMap<String, Object>> newsList = null;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_chat, null);
 
 		initViews(view);
+		tvTitleName.setText(R.string.news);
 
-		List<HashMap<String, Object>> list = testData();
-		lvChat.setAdapter(new ChatListViewAdapter(getActivity(), list));
+		generateTestData();
+		lvChat.setAdapter(new ChatListViewAdapter(getActivity(), newsList));
+
 		lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				Intent intent;
 				Bundle bundle;
 
-				intent = new Intent(getActivity(), ChatActivity.class);
+				intent = new Intent(getActivity(), HelpDetailsActivity.class);
 				bundle = new Bundle();
-				bundle.putString("name", ((TextView) view.findViewById(R.id.tv_chatlist_name)).getText().toString());
+				bundle.putString("flag", "news");
+				bundle.putString("postId", newsList.get(i).get("postId").toString());
 				intent.putExtras(bundle);
 
 				startActivity(intent);
 			}
 		});
-
-		tvNews.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				startActivity(new Intent(getActivity(), NewsActivity.class));
-			}
-		});
-
-		tvTitleName.setText(R.string.news);
 
 		return view;
 	}
@@ -71,51 +68,28 @@ public class ChatFragment extends Fragment {
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
 	}
 
-	List<HashMap<String, Object>> testData() {
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	void generateTestData() {
+		newsList = new ArrayList<HashMap<String, Object>>();
 
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("postId", "1");
 		map1.put("name", "张三");
 		map1.put("news", "求救啊");
 		map1.put("time", "8:00");
-		list.add(map1);
+		newsList.add(map1);
 
 		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("postId", "2");
 		map2.put("name", "李四");
 		map2.put("news", "请人搬桌子");
 		map2.put("time", "8:01");
-		list.add(map2);
+		newsList.add(map2);
 
 		HashMap<String, Object> map3 = new HashMap<String, Object>();
+		map3.put("postId", "3");
 		map3.put("name", "王五");
 		map3.put("news", "能帮我带带小狗baby吗");
 		map3.put("time", "8:02");
-		list.add(map3);
-
-		HashMap<String, Object> map4 = new HashMap<String, Object>();
-		map4.put("name", "小李子");
-		map4.put("news", "来吧，来吧");
-		map4.put("time", "8:03");
-		list.add(map4);
-
-		HashMap<String, Object> map5 = new HashMap<String, Object>();
-		map5.put("name", "老王");
-		map5.put("news", "我是老王");
-		map5.put("time", "8:04");
-		list.add(map5);
-
-		HashMap<String, Object> map6 = new HashMap<String, Object>();
-		map6.put("name", "老赵");
-		map6.put("news", "我是老赵");
-		map6.put("time", "8:05");
-		list.add(map6);
-
-		HashMap<String, Object> map7 = new HashMap<String, Object>();
-		map7.put("name", "老吴");
-		map7.put("news", "我是老吴");
-		map7.put("time", "8:06");
-		list.add(map7);
-
-		return list;
+		newsList.add(map3);
 	}
 }
