@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.RadioGroup;
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.zzy.chatapp.app.R;
 import com.zzy.chatapp.app.adapter.FragmentTabAdapter;
 import com.zzy.chatapp.app.fragment.ChatFragment;
@@ -25,13 +27,23 @@ public class TabMainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tab);
 
+		bindBaiduPush();
+		setFragments();
+	}
+
+	private void bindBaiduPush() {
+		PushManager.startWork(
+			getApplicationContext(),
+			PushConstants.LOGIN_TYPE_API_KEY,
+			"huGGgsO5pfLZVAU45P2heSGx"
+		);
+	}
+
+	private void setFragments() {
 		fragments.add(new ChatFragment());
 		fragments.add(new HelpFragment());
 		fragments.add(new MeFragment());
-
 		rgs = (RadioGroup) findViewById(R.id.tabs_rg);
-
 		FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragments, R.id.tab_content, rgs);
-
 	}
 }

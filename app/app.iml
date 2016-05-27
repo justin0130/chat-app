@@ -88,5 +88,6 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.0" level="project" />
+    <orderEntry type="library" name="pushservice-4.6.3.65" level="project" />
   </component>
 </module>
