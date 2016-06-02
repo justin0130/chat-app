@@ -30,18 +30,24 @@ public class ChatFragment extends Fragment {
 	TextView tvNews;
 	TextView tvTitleName;
 
-	List<HashMap<String, Object>> newsList = null;
+	public static List<HashMap<String, Object>> newsList = null;
+	static ChatListViewAdapter adapter;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+		Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_chat, null);
 
 		initViews(view);
 		tvTitleName.setText(R.string.news);
 
-		generateTestData();
-		lvChat.setAdapter(new ChatListViewAdapter(getActivity(), newsList));
+//		generateTestData();
+		if(newsList == null) {
+			newsList = new ArrayList<HashMap<String, Object>>();
+		}
+		adapter = new ChatListViewAdapter(getActivity(), newsList);
+		lvChat.setAdapter(adapter);
 
 		lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -91,5 +97,13 @@ public class ChatFragment extends Fragment {
 		map3.put("news", "能帮我带带小狗baby吗");
 		map3.put("time", "8:02");
 		newsList.add(map3);
+	}
+
+	public static void refresh(HashMap<String, Object> map) {
+		if(newsList == null) {
+			newsList = new ArrayList<HashMap<String, Object>>();
+		}
+		newsList.add(map);
+		adapter.notifyDataSetChanged();
 	}
 }

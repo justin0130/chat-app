@@ -3,7 +3,11 @@ package com.zzy.chatapp.app.receiver;
 import android.content.Context;
 import android.util.Log;
 import com.baidu.android.pushservice.PushMessageReceiver;
+import com.zzy.chatapp.app.fragment.ChatFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -99,6 +103,16 @@ public class BaiduPushReceiver extends PushMessageReceiver {
 		Log.d(TAG, "title=" + title);
 		Log.d(TAG, "description=" + description);
 		Log.d(TAG, "customContentString=" + customContentString);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("postId", "1");
+		map.put("name", title);
+		map.put("news", description);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		map.put("time", sdf.format(date));
+
+		ChatFragment.refresh(map);
 	}
 
 	/**

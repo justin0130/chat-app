@@ -4,3 +4,4 @@
 /build
 app/src/main/gen
 .idea
+app/libs/Native_Libs.jar

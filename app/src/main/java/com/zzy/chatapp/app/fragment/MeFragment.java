@@ -26,6 +26,7 @@ import java.util.Map;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MeFragment extends Fragment implements View.OnClickListener {
 	TextView tvTitleName;
+	ImageView ivTitleBack;
 	EditText etMeName;
 	EditText etMeAge;
 	EditText etMeSign;
@@ -41,13 +42,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 		public void handleMessage(Message msg) {
 			if(msg.obj == null) {
 				onLoadDialog.cancel();
-				Toast.makeText(getActivity(), R.string.no_user_information, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), R.string.no_user_information, 
+					Toast.LENGTH_SHORT).show();
 				return;
 			}
 			String json = msg.obj.toString();
 			if(HttpUtils.TIME_OUT.equals(json)) {
 				onLoadDialog.cancel();
-				Toast.makeText(getActivity(), R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), R.string.connect_time_out, 
+					Toast.LENGTH_SHORT).show();
 				return;
 			}
 			try {
@@ -55,12 +58,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 				String status = object.getString("status");
 				if("0".equals(status)) {
 					onLoadDialog.cancel();
-					Toast.makeText(getActivity(), R.string.no_user_information, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.no_user_information, 
+						Toast.LENGTH_SHORT).show();
 					return;
 				}
 				JSONObject data = object.getJSONObject("UserMess");
 				Map<String, String> map = new HashMap<String, String>();
-				map.put("userName", data.getString("userName"));
+				map.put("userName", data.getString("nickName"));
 				map.put("age", data.getString("age"));
 				map.put("sign", data.getString("sign"));
 				map.put("count", data.getString("count"));
@@ -114,7 +118,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 		View view = inflater.inflate(R.layout.fragment_me, null);
 
 		initViews(view);
+		getUserDetails();
+
 		tvTitleName.setText(R.string.me);
+		ivTitleBack.setVisibility(View.VISIBLE);
+		ivTitleBack.setImageResource(R.mipmap.tools);
 		ivTitleAdd.setVisibility(View.VISIBLE);
 		ivTitleAdd.setImageResource(R.mipmap.edit);
 
@@ -143,6 +151,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 				onLoadDialog.show();
 				RequestServerUtils.updateUserMess(updateUserDetails, map);
 				break;
+			case R.id.iv_title_back:
+
+				break;
 			default:
 				break;
 		}
@@ -150,6 +161,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
 	void initViews(View view) {
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
+		ivTitleBack = (ImageView) view.findViewById(R.id.iv_title_back);
 		etMeName = (EditText) view.findViewById(R.id.et_me_name);
 		etMeAge = (EditText) view.findViewById(R.id.et_me_age);
 		etMeSign = (EditText) view.findViewById(R.id.et_me_sign);
@@ -158,8 +170,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 		etMePhone = (EditText) view.findViewById(R.id.et_me_phone);
 		ivTitleAdd = (ImageView) view.findViewById(R.id.iv_title_add);
 		btnMeFinish = (Button) view.findViewById(R.id.btn_me_finish);
-
-		getUserDetails();
 	}
 
 	private void setViews(Map<String, String> map) {

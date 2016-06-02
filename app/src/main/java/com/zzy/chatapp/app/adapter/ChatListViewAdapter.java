@@ -56,7 +56,7 @@ public class ChatListViewAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		HashMap<String, Object> map = list.get(i);
+		HashMap<String, Object> map = list.get(list.size()-i-1);
 		holder.tvChatListName.setText(map.get("name").toString());
 		holder.tvChatListNews.setText(map.get("news").toString());
 		holder.tvChatListTime.setText(map.get("time").toString());

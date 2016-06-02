@@ -14,25 +14,25 @@ public class RequestServerUtils {
 	public static String PORT = "";
 	public static String USER_ID = "0";
 
-//	public static String BASE_URL_SERVER = "http://192.168.56.1:8080/grailsExercise1/home/";
-//	public static String LOGIN = "login";
-//	public static String REGISTER = "register";
-//	public static String UPDATE_USER_Details = "updateUserDetails";
-//	public static String GET_USER_DETAILS = "getUserDetails";
-//	public static String GET_HELP_LIST = "getHelpList";
-//	public static String SUBMIT_REQUEST_POST = "submitRequestPost";
-//	public static String GET_POST_DETAILS = "getPostDetails";
-//	public static String TOOK_POST = "tookPost";
+	public static String BASE_URL_SERVER = "http://192.168.56.1:8080/grailsExercise1/home/";
+	public static String LOGIN = "login";
+	public static String REGISTER = "register";
+	public static String UPDATE_USER_Details = "updateUserDetails";
+	public static String GET_USER_DETAILS = "getUserDetails";
+	public static String GET_HELP_LIST = "getHelpList";
+	public static String SUBMIT_REQUEST_POST = "submitRequestPost";
+	public static String GET_POST_DETAILS = "getPostDetails";
+	public static String TOOK_POST = "tookPost";
 
-	public static String BASE_URL_SERVER = "http://ip:8080/JSON/";
-	public static String LOGIN = "Login.aspx";
-	public static String REGISTER = "Register.aspx";
-	public static String UPDATE_USER_Details = "updateUserMess.aspx";
-	public static String GET_USER_DETAILS = "getUserDetails.aspx";
-	public static String GET_HELP_LIST = "getHelpReceive.aspx";
-	public static String SUBMIT_REQUEST_POST = "Post.aspx";
-	public static String GET_POST_DETAILS = "getPostDetails.aspx";
-	public static String TOOK_POST = "receivePost.aspx";
+//	public static String BASE_URL_SERVER = "http://ip:8080/JSON/";
+//	public static String LOGIN = "Login.aspx";
+//	public static String REGISTER = "Register.aspx";
+//	public static String UPDATE_USER_Details = "updateUserMess.aspx";
+//	public static String GET_USER_DETAILS = "getUserDetails.aspx";
+//	public static String GET_HELP_LIST = "getHelpReceive.aspx";
+//	public static String SUBMIT_REQUEST_POST = "Post.aspx";
+//	public static String GET_POST_DETAILS = "getPostDetails.aspx";
+//	public static String TOOK_POST = "receivePost.aspx";
 
 	public static void setBaseUrl(String ip, String port) {
 		IP = ip;

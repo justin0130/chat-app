@@ -10,11 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.fragment.HelpFragment;
 import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by justin on 3/8/16.
@@ -85,6 +88,12 @@ public class HelpDetailsActivity extends Activity implements View.OnClickListene
 					Toast.makeText(HelpDetailsActivity.this, R.string.took_post_failure, Toast.LENGTH_SHORT).show();
 					return;
 				}
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("postId", json.getString("postId"));
+				map.put("nickName", json.getString("nickName"));
+				map.put("content", json.getString("content"));
+				HelpFragment.refresh(map, "help");
+
 				onLoadDialog.cancel();
 				Toast.makeText(HelpDetailsActivity.this, R.string.took_post_success, Toast.LENGTH_SHORT).show();
 				finish();
