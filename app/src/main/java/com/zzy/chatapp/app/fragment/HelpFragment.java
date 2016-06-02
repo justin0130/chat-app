@@ -34,9 +34,11 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 	ListView lvHelp;
 	ImageView ivTitleAdd;
 	TextView tvTitleName;
-	List<List> data = null;
-	List<HashMap<String, Object>> postList;
-	List<HashMap<String, Object>> helpList;
+	static HelpListViewAdapter adapter;
+
+	static List<List> data = null;
+	static List<HashMap<String, Object>> postList = null;
+	static List<HashMap<String, Object>> helpList = null;
 
 	OnLoadDialog onLoadDialog;
 	Handler helpHandler = new Handler() {
@@ -76,6 +78,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 		View view = inflater.inflate(R.layout.fragment_help, null);
 
 		initViews(view);
+		initList();
 		getHelpList();
 
 		ivTitleAdd.setVisibility(View.VISIBLE);
@@ -90,14 +93,14 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 				String postId = "";
 
 				int categroyFirstIndex = 0;
-				for(List list : data) {
+				for (List list : data) {
 					int size = list.size();
 					int categoryIndex = i - categroyFirstIndex;
-					if(categoryIndex == 0) {
+					if (categoryIndex == 0) {
 						return;
 					}
-					if(categoryIndex < size) {
-						postId = ((HashMap)list.get(categoryIndex)).get("postId").toString();
+					if (categoryIndex < size) {
+						postId = ((HashMap) list.get(categoryIndex)).get("postId").toString();
 						break;
 					}
 					categroyFirstIndex = categroyFirstIndex + size;
@@ -122,7 +125,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		System.out.println("````````````````` on resume `````````````````");
 //		getHelpList();
 	}
 
@@ -137,10 +139,34 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 		}
 	}
 
-	void initViews(View view) {
+	private void initViews(View view) {
 		lvHelp = (ListView) view.findViewById(R.id.lv_help);
 		ivTitleAdd = (ImageView) view.findViewById(R.id.iv_title_add);
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
+	}
+
+	private void initList() {
+		initDateList();
+		adapter = new HelpListViewAdapter(getActivity(), data);
+		lvHelp.setAdapter(adapter);
+	}
+
+	static void initDateList() {
+		data = new ArrayList<List>();
+		postList = new ArrayList<HashMap<String, Object>>();
+		helpList = new ArrayList<HashMap<String, Object>>();
+
+		//add post list title
+		HashMap<String, Object> mapPostTitle = new HashMap<String, Object>();
+		mapPostTitle.put("title", "我的求助");
+		postList.add(mapPostTitle);
+		//add help list title
+		HashMap<String, Object> mapHelpTitle = new HashMap<String, Object>();
+		mapHelpTitle.put("title", "我的帮助");
+		helpList.add(mapHelpTitle);
+
+		data.add(postList);
+		data.add(helpList);
 	}
 
 	private void getHelpList() {
@@ -152,14 +178,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 	private void setMyPostAndHelpList(JSONObject json) throws JSONException {
 		JSONArray arrayPost = json.getJSONArray("myPost");
 		JSONArray arrayHelp = json.getJSONArray("myHelp");
-		data = new ArrayList<List>();
-		postList = new ArrayList<HashMap<String, Object>>();
-		helpList = new ArrayList<HashMap<String, Object>>();
 
-		//add post list title
-		HashMap<String, Object> mapPostTitle = new HashMap<String, Object>();
-		mapPostTitle.put("title", getResources().getString(R.string.my_post));
-		postList.add(mapPostTitle);
 		//add post list content
 		for(int i=0; i<arrayPost.length(); i++) {
 			JSONObject object  = arrayPost.getJSONObject(i);
@@ -169,10 +188,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 			map.put("content", object.getString("content"));
 			postList.add(map);
 		}
-		//add help list title
-		HashMap<String, Object> mapHelpTitle = new HashMap<String, Object>();
-		mapHelpTitle.put("title", getResources().getString(R.string.my_help));
-		helpList.add(mapHelpTitle);
 		//add help list content
 		for(int i=0; i<arrayHelp.length(); i++) {
 			JSONObject object  = arrayHelp.getJSONObject(i);
@@ -182,67 +197,19 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 			map.put("content", object.getString("content"));
 			helpList.add(map);
 		}
-		data.add(postList);
-		data.add(helpList);
-		lvHelp.setAdapter(new HelpListViewAdapter(getActivity(), data));
+		adapter.notifyDataSetChanged();
 	}
 
-	List<List> testData() {
-		List<List> list = new ArrayList<List>();
-
-		List<HashMap<String, Object>> listMyNeed = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> map0 = new HashMap<String, Object>();
-		map0.put("title", "我的求助");
-		listMyNeed.add(map0);
-
-		HashMap<String, Object> mapNeed1 = new HashMap<String, Object>();
-		mapNeed1.put("content", "求助帮忙收拾东西");
-		listMyNeed.add(mapNeed1);
-
-		HashMap<String, Object> mapNeed2 = new HashMap<String, Object>();
-		mapNeed2.put("content", "来找我玩");
-		listMyNeed.add(mapNeed2);
-
-		HashMap<String, Object> mapNeed3 = new HashMap<String, Object>();
-		mapNeed3.put("content", "水管坏了ToT");
-		listMyNeed.add(mapNeed3);
-
-		HashMap<String, Object> mapNeed4 = new HashMap<String, Object>();
-		mapNeed4.put("content", "找人修电脑");
-		listMyNeed.add(mapNeed4);
-
-		HashMap<String, Object> mapNeed5 = new HashMap<String, Object>();
-		mapNeed5.put("content", "我是程序猿");
-		listMyNeed.add(mapNeed5);
-
-		List<HashMap<String, Object>> listMyHelp = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> mapHelp0 = new HashMap<String, Object>();
-		mapHelp0.put("title", "我的帮助");
-		listMyHelp.add(mapHelp0);
-
-		HashMap<String, Object> mapHelp1 = new HashMap<String, Object>();
-		mapHelp1.put("content", "帮忙除草");
-		listMyHelp.add(mapHelp1);
-
-		HashMap<String, Object> mapHelp2 = new HashMap<String, Object>();
-		mapHelp2.put("content", "帮忙搬家");
-		listMyHelp.add(mapHelp2);
-
-		HashMap<String, Object> mapHelp3 = new HashMap<String, Object>();
-		mapHelp3.put("content", "帮老奶奶拿快递");
-		listMyHelp.add(mapHelp3);
-
-		HashMap<String, Object> mapHelp4 = new HashMap<String, Object>();
-		mapHelp4.put("content", "帮人转系统");
-		listMyHelp.add(mapHelp4);
-
-		HashMap<String, Object> mapHelp5 = new HashMap<String, Object>();
-		mapHelp5.put("content", "我是程序猿");
-		listMyHelp.add(mapHelp5);
-
-		list.add(listMyNeed);
-		list.add(listMyHelp);
-
-		return list;
+	public static void refresh(HashMap<String, Object> map, String tag) {
+		if(data == null) {
+			initDateList();
+		}
+		if("post".equals(tag)) {
+			postList.add(map);
+		}
+		if("help".equals(tag)) {
+			helpList.add(map);
+		}
+		adapter.notifyDataSetChanged();
 	}
 }

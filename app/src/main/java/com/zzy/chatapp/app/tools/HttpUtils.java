@@ -35,12 +35,14 @@ public class HttpUtils {
 		if(httpResponse.getStatusLine().getStatusCode() == 200) {
 			return EntityUtils.toString(httpResponse.getEntity());
 		} else {
-			Log.d("server code", (new Integer(httpResponse.getStatusLine().getStatusCode())).toString());
+			Log.d("server code", (new Integer(httpResponse.getStatusLine()
+				.getStatusCode())).toString());
 			return null;
 		}
 	}
 
-	public static String postRequest(String url, Map<String, String> rawParams) throws Exception {
+	public static String postRequest(String url, 
+		Map<String, String> rawParams) throws Exception {
 		HttpPost post = new HttpPost(url);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		for(String key: rawParams.keySet()) {
@@ -49,7 +51,8 @@ public class HttpUtils {
 		post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
 		//set timeout
-		httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CLIENT_TIMEOUT);
+		httpClient.getParams().setParameter(
+			CoreConnectionPNames.CONNECTION_TIMEOUT, CLIENT_TIMEOUT);
 		HttpParams httpParams = httpClient.getParams();
 		HttpConnectionParams.setConnectionTimeout(httpParams, CLIENT_TIMEOUT);
 		HttpConnectionParams.setSoTimeout(httpParams, CLIENT_TIMEOUT);

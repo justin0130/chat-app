@@ -96,14 +96,16 @@ public class HelpListViewAdapter extends BaseAdapter {
 		switch (itemViewType) {
 			case TYPE_CATEGORY_ITEM:
 				convertView = mInflater.inflate(R.layout.item_helplist_header, null);
-				TextView textView = (TextView) convertView.findViewById(R.id.tv_helplist_category);
+				TextView textView = (TextView) convertView
+					.findViewById(R.id.tv_helplist_category);
 				map = (HashMap) getItem(position);
 				textView.setText(map.get("title").toString());
 				break;
 
 			case TYPE_ITEM:
 				convertView = mInflater.inflate(R.layout.item_helplist, null);
-				TextView tvHelpListTitle = (TextView) convertView.findViewById(R.id.tv_helplist_title);
+				TextView tvHelpListTitle = (TextView) convertView
+					.findViewById(R.id.tv_helplist_title);
 				map = (HashMap) getItem(position);
 				tvHelpListTitle.setText(map.get("content").toString());
 				break;

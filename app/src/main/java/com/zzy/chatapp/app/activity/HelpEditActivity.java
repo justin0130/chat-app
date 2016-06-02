@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.fragment.HelpFragment;
 import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
@@ -53,11 +54,18 @@ public class HelpEditActivity extends Activity implements View.OnClickListener {
 					Toast.makeText(HelpEditActivity.this, R.string.submit_failure, Toast.LENGTH_SHORT).show();
 					return;
 				}
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("postId", json.getString("postId"));
+				map.put("nickName", json.getString("nickName"));
+				map.put("content", json.getString("content"));
+				HelpFragment.refresh(map, "post");
+
 				onLoadDialog.cancel();
 				Toast.makeText(HelpEditActivity.this, R.string.submit_success, Toast.LENGTH_SHORT).show();
 				finish();
 			} catch (JSONException e) {
 				onLoadDialog.cancel();
+				Toast.makeText(HelpEditActivity.this, R.string.submit_failure, Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 		}

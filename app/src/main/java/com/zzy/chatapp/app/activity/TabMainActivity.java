@@ -36,6 +36,7 @@ public class TabMainActivity extends FragmentActivity {
 			getApplicationContext(),
 			PushConstants.LOGIN_TYPE_API_KEY,
 			"huGGgsO5pfLZVAU45P2heSGx"
+//			"w2N0CXjt5bnGaVMA1DuPAebQ"
 		);
 	}
 
@@ -44,6 +45,7 @@ public class TabMainActivity extends FragmentActivity {
 		fragments.add(new HelpFragment());
 		fragments.add(new MeFragment());
 		rgs = (RadioGroup) findViewById(R.id.tabs_rg);
-		FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragments, R.id.tab_content, rgs);
+		FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, 
+			fragments, R.id.tab_content, rgs);
 	}
 }
