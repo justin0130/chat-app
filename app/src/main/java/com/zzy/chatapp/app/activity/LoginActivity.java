@@ -57,7 +57,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 				onLoadDialog.cancel();
 				Toast.makeText(LoginActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
 				startActivity(new Intent(LoginActivity.this, TabMainActivity.class));
-				finish();
+//				finish();
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -80,6 +80,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		switch (view.getId()) {
 			case R.id.btn_login:
 				login();
+//				startActivity(new Intent(LoginActivity.this, TabMainActivity.class));
 				break;
 			case R.id.tv_register:
 				startActivity(new Intent(LoginActivity.this, RegisterActivity.class));

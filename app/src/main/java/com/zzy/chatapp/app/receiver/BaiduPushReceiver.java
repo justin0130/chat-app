@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import com.baidu.android.pushservice.PushMessageReceiver;
 import com.zzy.chatapp.app.fragment.ChatFragment;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,8 +106,18 @@ public class BaiduPushReceiver extends PushMessageReceiver {
 		Log.d(TAG, "description=" + description);
 		Log.d(TAG, "customContentString=" + customContentString);
 
+		String postId = "0";
+		try {
+			JSONObject object = new JSONObject(customContentString);
+			postId = object.getString("postId");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("postId", "1");
+		map.put("postId", postId);
 		map.put("name", title);
 		map.put("news", description);
 		Date date = new Date();
