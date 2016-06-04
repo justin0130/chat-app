@@ -77,7 +77,8 @@ public class HelpDetailsActivity extends Activity implements View.OnClickListene
 			String obj = msg.obj.toString();
 			if(HttpUtils.TIME_OUT.equals(obj)) {
 				onLoadDialog.cancel();
-				Toast.makeText(HelpDetailsActivity.this, R.string.connect_time_out, Toast.LENGTH_SHORT).show();
+				Toast.makeText(HelpDetailsActivity.this,
+						R.string.connect_time_out, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			try {
@@ -85,20 +86,29 @@ public class HelpDetailsActivity extends Activity implements View.OnClickListene
 				String status = json.getString("status");
 				if("0".equals(status)) {
 					onLoadDialog.cancel();
-					Toast.makeText(HelpDetailsActivity.this, R.string.took_post_failure, Toast.LENGTH_SHORT).show();
+					Toast.makeText(HelpDetailsActivity.this,
+							R.string.took_post_failure, Toast.LENGTH_SHORT).show();
 					return;
 				}
+				onLoadDialog.cancel();
+				Toast.makeText(HelpDetailsActivity.this,
+						R.string.took_post_success, Toast.LENGTH_SHORT).show();
+
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("postId", json.getString("postId"));
 				map.put("nickName", json.getString("nickName"));
 				map.put("content", json.getString("content"));
 				HelpFragment.refresh(map, "help");
 
-				onLoadDialog.cancel();
-				Toast.makeText(HelpDetailsActivity.this, R.string.took_post_success, Toast.LENGTH_SHORT).show();
 				finish();
 			} catch (JSONException e) {
 				e.printStackTrace();
+				onLoadDialog.cancel();
+				Toast.makeText(HelpDetailsActivity.this,
+						R.string.error, Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+				finish();
 			}
 		}
 	};

@@ -38,6 +38,7 @@
 		<activity android:name=".activity.HelpEditActivity"/>
 		<activity android:name=".activity.HelpDetailsActivity"/>
 		<activity android:name=".activity.NewsActivity"/>
+		<activity android:name=".activity.ToolsActivity"/>
 
 		<!-- push应用定义消息receiver声明 -->
 		<receiver android:name=".receiver.BaiduPushReceiver" >

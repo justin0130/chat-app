@@ -34,6 +34,9 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 	ListView lvHelp;
 	ImageView ivTitleAdd;
 	TextView tvTitleName;
+	ImageView ivHelpAnnouncement;
+	ImageView ivHelpNearby;
+	ImageView ivHelpLife;
 	static HelpListViewAdapter adapter;
 
 	static List<List> data = null;
@@ -83,6 +86,9 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 
 		ivTitleAdd.setVisibility(View.VISIBLE);
 		ivTitleAdd.setOnClickListener(this);
+		ivHelpAnnouncement.setOnClickListener(this);
+		ivHelpNearby.setOnClickListener(this);
+		ivHelpLife.setOnClickListener(this);
 		tvTitleName.setText(R.string.help);
 
 		lvHelp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -134,6 +140,15 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 			case R.id.iv_title_add:
 				startActivity(new Intent(getActivity(), HelpEditActivity.class));
 				break;
+			case R.id.iv_help_announcement:
+				Toast.makeText(getActivity(), R.string.building, Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.iv_help_nearby:
+				Toast.makeText(getActivity(), R.string.building, Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.iv_help_life:
+				Toast.makeText(getActivity(), R.string.building, Toast.LENGTH_SHORT).show();
+				break;
 			default:
 				break;
 		}
@@ -143,6 +158,9 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 		lvHelp = (ListView) view.findViewById(R.id.lv_help);
 		ivTitleAdd = (ImageView) view.findViewById(R.id.iv_title_add);
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
+		ivHelpAnnouncement = (ImageView) view.findViewById(R.id.iv_help_announcement);
+		ivHelpNearby = (ImageView) view.findViewById(R.id.iv_help_nearby);
+		ivHelpLife = (ImageView) view.findViewById(R.id.iv_help_life);
 	}
 
 	private void initList() {

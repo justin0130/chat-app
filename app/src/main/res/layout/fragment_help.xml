@@ -5,6 +5,69 @@
 	android:layout_height="match_parent"
 	>
 	<include layout="@layout/item_title" />
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:stretchColumns="*">
+		<ImageView
+			android:id="@+id/iv_help_announcement"
+			android:src="@mipmap/announcement"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginTop="5dp"
+			/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/iv_help_announcement"
+			android:text="@string/community_announcement"
+			android:layout_marginLeft="31dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			/>
+		<ImageView
+			android:id="@+id/iv_help_nearby"
+			android:src="@mipmap/nearby"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginTop="5dp"
+			android:layout_centerHorizontal="true"
+			/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/iv_help_nearby"
+			android:text="@string/nearby"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			/>
+		<ImageView
+			android:id="@+id/iv_help_life"
+			android:src="@mipmap/life"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_alignParentRight="true"
+			android:layout_marginTop="5dp"
+			android:layout_marginRight="20dp"
+			/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/iv_help_nearby"
+			android:text="@string/life"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="31dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			/>
+	</RelativeLayout>
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="0.5dp"
+		android:background="@color/black"
+		/>
 	<ListView
 		android:id="@+id/lv_help"
 		android:layout_width="match_parent"

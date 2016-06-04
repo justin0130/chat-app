@@ -3,6 +3,7 @@
 	<string name="hello_world">Hello world!</string>
 	<string name="first">This is the first text view.</string>
 	<string name="login">登录</string>
+	<string name="logout">登出</string>
 	<string name="login_failed">登录失败</string>
 	<string name="login_success">登录成功</string>
 	<string name="tab">TAB</string>
@@ -58,4 +59,16 @@
 	<string name="get_post_details_failure">我的信息失败</string>
 	<string name="took_post_success">接帖成功</string>
 	<string name="took_post_failure">接帖失败</string>
+	<string name="error">出错啦</string>
+	<string name="set_time">设置推送时间</string>
+	<string name="set_tag">设置推送标签</string>
+	<string name="show_tags">显示推送标签</string>
+	<string name="feedback">反馈意见</string>
+	<string name="tools">工具</string>
+	<string name="please_input_title">请输入标题</string>
+	<string name="please_input_feedback">请输入反馈意见</string>
+	<string name="community_announcement">公告</string>
+	<string name="nearby">附近</string>
+	<string name="life">生活</string>
+	<string name="building">建设中...</string>
 </resources>

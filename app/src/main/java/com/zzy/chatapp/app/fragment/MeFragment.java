@@ -1,16 +1,18 @@
 package com.zzy.chatapp.app.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.os.Build;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.zzy.chatapp.app.R;
+import com.zzy.chatapp.app.activity.ToolsActivity;
 import com.zzy.chatapp.app.tools.HttpUtils;
 import com.zzy.chatapp.app.tools.OnLoadDialog;
 import com.zzy.chatapp.app.tools.RequestServerUtils;
@@ -25,14 +27,16 @@ import java.util.Map;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MeFragment extends Fragment implements View.OnClickListener {
+	boolean viewIsEditable = false;
+
 	TextView tvTitleName;
-	ImageView ivTitleBack;
 	EditText etMeName;
 	EditText etMeAge;
 	EditText etMeSign;
 	EditText etMeHelpcount;
 	EditText etMeAddress;
 	EditText etMePhone;
+	ImageView ivTitleTools;
 	ImageView ivTitleAdd;
 	Button btnMeFinish;
 
@@ -103,7 +107,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 					Toast.makeText(getActivity(), R.string.chang_user_details_failure, Toast.LENGTH_SHORT).show();
 					return;
 				}
-				Toast.makeText(getActivity(), R.string.chang_user_details_success, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(),
+						R.string.chang_user_details_success, Toast.LENGTH_SHORT).show();
+				viewIsEditable = false;
 				onLoadDialog.cancel();
 			} catch (JSONException e) {
 				onLoadDialog.cancel();
@@ -121,11 +127,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 		getUserDetails();
 
 		tvTitleName.setText(R.string.me);
-		ivTitleBack.setVisibility(View.VISIBLE);
-		ivTitleBack.setImageResource(R.mipmap.tools);
+		ivTitleTools.setVisibility(View.VISIBLE);
+		ivTitleTools.setImageResource(R.mipmap.tools);
 		ivTitleAdd.setVisibility(View.VISIBLE);
 		ivTitleAdd.setImageResource(R.mipmap.edit);
 
+		ivTitleTools.setOnClickListener(this);
 		ivTitleAdd.setOnClickListener(this);
 		btnMeFinish.setOnClickListener(this);
 
@@ -136,8 +143,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.iv_title_add:
-				setViewEnable(true);
-				btnMeFinish.setVisibility(View.VISIBLE);
+				viewIsEditable = !viewIsEditable;
+				setViewEnable(viewIsEditable);
+				int visible = viewIsEditable ? View.VISIBLE : View.GONE;
+				btnMeFinish.setVisibility(visible);
 				break;
 			case R.id.btn_me_finish:
 				HashMap<String, String> map = new HashMap<String, String>();
@@ -152,7 +161,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 				RequestServerUtils.updateUserMess(updateUserDetails, map);
 				break;
 			case R.id.iv_title_back:
-
+				startActivity(new Intent(getActivity(), ToolsActivity.class));
 				break;
 			default:
 				break;
@@ -161,13 +170,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
 	void initViews(View view) {
 		tvTitleName = (TextView) view.findViewById(R.id.tv_title_name);
-		ivTitleBack = (ImageView) view.findViewById(R.id.iv_title_back);
 		etMeName = (EditText) view.findViewById(R.id.et_me_name);
 		etMeAge = (EditText) view.findViewById(R.id.et_me_age);
 		etMeSign = (EditText) view.findViewById(R.id.et_me_sign);
 		etMeHelpcount = (EditText) view.findViewById(R.id.et_me_helpcount);
 		etMeAddress = (EditText) view.findViewById(R.id.et_me_address);
 		etMePhone = (EditText) view.findViewById(R.id.et_me_phone);
+		ivTitleTools = (ImageView) view.findViewById(R.id.iv_title_back);
 		ivTitleAdd = (ImageView) view.findViewById(R.id.iv_title_add);
 		btnMeFinish = (Button) view.findViewById(R.id.btn_me_finish);
 	}

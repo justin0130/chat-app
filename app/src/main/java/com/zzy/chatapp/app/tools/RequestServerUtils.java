@@ -23,6 +23,7 @@ public class RequestServerUtils {
 	public static String SUBMIT_REQUEST_POST = "submitRequestPost";
 	public static String GET_POST_DETAILS = "getPostDetails";
 	public static String TOOK_POST = "tookPost";
+	public static String ADD_FEEDBACK = "addFeedBack";
 
 //	public static String BASE_URL_SERVER = "http://ip:8080/JSON/";
 //	public static String LOGIN = "Login.aspx";
@@ -33,6 +34,7 @@ public class RequestServerUtils {
 //	public static String SUBMIT_REQUEST_POST = "Post.aspx";
 //	public static String GET_POST_DETAILS = "getPostDetails.aspx";
 //	public static String TOOK_POST = "receivePost.aspx";
+//	public static String ADD_FEEDBACK = "addFeedBack.aspx";
 
 	public static void setBaseUrl(String ip, String port) {
 		IP = ip;
@@ -91,6 +93,14 @@ public class RequestServerUtils {
 		map.put("userId", USER_ID);
 		map.put("postId", postId);
 		connToServer(handler, BASE_URL_SERVER + TOOK_POST, map);
+	}
+
+	public static void addFeedback(Handler handler, String title, String content) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", USER_ID);
+		map.put("title", title);
+		map.put("content", content);
+		connToServer(handler, BASE_URL_SERVER + ADD_FEEDBACK, map);
 	}
 
 	private static void connToServer(final Handler handler, final String url, final Map<String, String> map) {
